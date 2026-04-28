@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email System - For withdrawal</title>
+    <title>EmpireStateBank - Email System</title>
     <style>
         * {
             margin: 0;
@@ -472,13 +472,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Amount</label>
-                    <input type="text" id="amount" placeholder="$5,000.00" value="$5,000.00">
+                    <label>Amount (₦ Naira)</label>
+                    <input type="text" id="amount" placeholder="₦5,000.00" value="₦5,000.00">
                 </div>
 
                 <div class="form-group">
                     <label>Bank Name</label>
-                    <input type="text" id="bankName" placeholder="Central Bank USA" value="Central Bank USA">
+                    <input type="text" id="bankName" placeholder="First Bank Nigeria" value="First Bank Nigeria">
                 </div>
 
                 <div class="form-group">
@@ -512,7 +512,7 @@
                     <div class="preview-content">
                         <div class="preview-wrapper desktop" id="previewWrapper">
                             <div class="email-viewport">
-                                <iframe id="previewFrame"></iframe>
+                                <iframe id="previewFrame" sandbox="allow-same-origin"></iframe>
                             </div>
                         </div>
                     </div>
@@ -529,7 +529,8 @@
                     <p>✅ <strong>Send Emails</strong> - Integrated with Formspree</p>
                     <p>✅ <strong>Transaction Focused</strong> - Bank transfer notifications</p>
                     <p>✅ <strong>Multi-Device Preview</strong> - Test on any viewport</p>
-                    <p>✅ <strong>Customer Name Support</strong> - Personalized greetings</p>
+                    <p>✅ <strong>Naira Currency</strong> - Nigerian NGN support (₦)</p>
+                    <p>✅ <strong>PNG Logo Support</strong> - Local file integration</p>
                 </div>
             </div>
         </div>
@@ -537,11 +538,33 @@
 
     <div class="footer">
         <p>© 2026 EmpireStateBank | Production-Ready Transaction Email System</p>
-        <p style="margin-top: 10px; color: #555;">✅ Preview • 📤 Send • 100% Mobile Responsive</p>
+        <p style="margin-top: 10px; color: #555;">✅ Preview • 📤 Send • 100% Mobile Responsive • ₦ Naira Support</p>
     </div>
 
     <script>
-        const emailTemplate = `<!DOCTYPE html>
+        // Load PNG image as base64
+        let logoBase64 = '';
+
+        function loadPNGImage() {
+            const logoPath = './AddText_04-11-12.53.52.png';
+            fetch(logoPath)
+                .then(response => response.blob())
+                .then(blob => {
+                    const reader = new FileReader();
+                    reader.onloadend = function() {
+                        logoBase64 = reader.result;
+                        console.log('Logo loaded successfully');
+                    };
+                    reader.readAsDataURL(blob);
+                })
+                .catch(error => {
+                    console.log('Could not load local image, using placeholder:', error);
+                    logoBase64 = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="60"%3E%3Crect fill="%23d4af37" width="200" height="60"/%3E%3Ctext x="100" y="35" text-anchor="middle" fill="%23000" font-size="16" font-weight="bold"%3EEmpireStateBank%3C/text%3E%3C/svg%3E';
+                });
+        }
+
+        function getEmailTemplate(logoUrl) {
+            return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -557,7 +580,7 @@
                     <!-- Header Section with Logo -->
                     <tr>
                         <td align="center" style="padding: 30px 20px; background-color: #000000; border-bottom: 2px solid #D4AF37;">
-                            <img src="https://via.placeholder.com/200x60?text=EmpireStateBank" alt="EmpireStateBank" style="max-width: 100%; height: auto; width: 200px; display: block;">
+                            <img src="${logoUrl}" alt="EmpireStateBank" style="max-width: 100%; height: auto; width: 200px; display: block; margin: 0 auto;">
                         </td>
                     </tr>
 
@@ -812,6 +835,7 @@
     </table>
 </body>
 </html>`;
+        }
 
         const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xzzeredj';
         
@@ -876,6 +900,7 @@
         }
 
         function generateHTML(data) {
+            const emailTemplate = getEmailTemplate(data.logoUrl);
             let html = emailTemplate;
             html = html.replace(/{{customer_name}}/g, data.customerName);
             html = html.replace(/{{recipient_name}}/g, data.recipientName);
@@ -893,11 +918,16 @@
             const transactionDate = document.getElementById('transactionDate').value;
 
             if (!customerName || !recipientName || !amount || !bankName || !transactionDate) {
-                showAlert('❌ Please fill in all fields', 'error');
+                showAlert('❌ Please fill in all required fields', 'error');
                 return;
             }
 
-            const html = generateHTML({ customerName, recipientName, amount, bankName, transactionDate });
+            if (!logoBase64) {
+                showAlert('⏳ Loading logo image...', 'info');
+                return;
+            }
+
+            const html = generateHTML({ customerName, recipientName, amount, bankName, transactionDate, logoUrl: logoBase64 });
             const iframe = document.getElementById('previewFrame');
             iframe.srcdoc = html;
             previewCount++;
@@ -913,11 +943,16 @@
             const transactionDate = document.getElementById('transactionDate').value;
 
             if (!customerName || !recipientName || !amount || !bankName || !transactionDate) {
-                showAlert('❌ Please fill in all fields', 'error');
+                showAlert('❌ Please fill in all required fields', 'error');
                 return;
             }
 
-            const html = generateHTML({ customerName, recipientName, amount, bankName, transactionDate });
+            if (!logoBase64) {
+                showAlert('❌ Logo image not loaded', 'error');
+                return;
+            }
+
+            const html = generateHTML({ customerName, recipientName, amount, bankName, transactionDate, logoUrl: logoBase64 });
             navigator.clipboard.writeText(html).then(() => {
                 showAlert('✅ HTML copied to clipboard!', 'success');
             }).catch(() => {
@@ -933,11 +968,16 @@
             const transactionDate = document.getElementById('transactionDate').value;
 
             if (!customerName || !recipientName || !amount || !bankName || !transactionDate) {
-                showAlert('❌ Please fill in all fields', 'error');
+                showAlert('❌ Please fill in all required fields', 'error');
                 return;
             }
 
-            const html = generateHTML({ customerName, recipientName, amount, bankName, transactionDate });
+            if (!logoBase64) {
+                showAlert('❌ Logo image not loaded', 'error');
+                return;
+            }
+
+            const html = generateHTML({ customerName, recipientName, amount, bankName, transactionDate, logoUrl: logoBase64 });
             const blob = new Blob([html], { type: 'text/html' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -963,13 +1003,18 @@
                 return;
             }
 
+            if (!logoBase64) {
+                showAlert('❌ Logo image not loaded', 'error');
+                return;
+            }
+
             const sendBtn = document.getElementById('sendBtn');
             const sendBtnText = document.getElementById('sendBtnText');
             sendBtn.disabled = true;
             sendBtnText.textContent = '⏳ Sending...';
 
             try {
-                const html = generateHTML({ customerName, recipientName, amount, bankName, transactionDate });
+                const html = generateHTML({ customerName, recipientName, amount, bankName, transactionDate, logoUrl: logoBase64 });
                 
                 const payload = {
                     email: toEmail,
@@ -1009,7 +1054,10 @@
         }
 
         window.addEventListener('load', function() {
-            previewEmail();
+            loadPNGImage();
+            setTimeout(() => {
+                previewEmail();
+            }, 1000);
         });
     </script>
 </body>
