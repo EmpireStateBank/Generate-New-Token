@@ -185,46 +185,11 @@
             color: #ffff7e;
         }
 
-        .device-toggle {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .device-btn {
-            width: auto;
-            padding: 10px 20px;
-            background: #333;
-            color: #d4af37;
-            border: 2px solid #333;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 12px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            flex: 1;
-            min-width: 100px;
-        }
-
-        .device-btn:hover {
-            border-color: #d4af37;
-        }
-
-        .device-btn.active {
-            background: #d4af37;
-            color: #0b0b0b;
-            border-color: #d4af37;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
-        }
-
         .preview-container {
             border: 2px solid #d4af37;
             border-radius: 8px;
             overflow: hidden;
-            min-height: 650px;
+            max-height: 600px;
         }
 
         .preview-label {
@@ -238,61 +203,15 @@
         }
 
         .preview-content {
-            padding: 15px;
+            padding: 0;
             background: #f5f5f5;
             overflow-y: auto;
-            max-height: 600px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-        }
-
-        .preview-wrapper {
-            background: #fff;
-            border-radius: 4px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-
-        .preview-wrapper.desktop {
-            max-width: 600px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .preview-wrapper.tablet {
-            max-width: 768px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .preview-wrapper.mobile {
-            max-width: 375px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
-            border: 12px solid #333;
-            border-radius: 20px;
-            position: relative;
-        }
-
-        .preview-wrapper.mobile::before {
-            content: '';
-            position: absolute;
-            top: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150px;
-            height: 20px;
-            background: #333;
-            border-radius: 0 0 20px 20px;
-            z-index: 10;
-        }
-
-        .email-viewport {
-            width: 100%;
+            max-height: 500px;
         }
 
         .preview-content iframe {
             width: 100%;
-            height: 600px;
+            height: 500px;
             border: none;
             background: #f5f5f5;
         }
@@ -378,18 +297,6 @@
             }
         }
 
-        @media (max-width: 900px) {
-            .device-toggle {
-                gap: 8px;
-            }
-
-            .device-btn {
-                min-width: 80px;
-                padding: 8px 15px;
-                font-size: 11px;
-            }
-        }
-
         @media (max-width: 600px) {
             .stats {
                 grid-template-columns: 1fr;
@@ -399,12 +306,6 @@
             }
             .logo {
                 max-width: 150px;
-            }
-            .device-toggle {
-                flex-direction: column;
-            }
-            .device-btn {
-                width: 100%;
             }
         }
     </style>
@@ -501,20 +402,10 @@
             <div class="panel">
                 <h2>👁️ Email Preview</h2>
 
-                <div class="device-toggle">
-                    <button class="device-btn active" onclick="changeDevice('desktop')">🖥️ Desktop (600px)</button>
-                    <button class="device-btn" onclick="changeDevice('tablet')">📱 Tablet (768px)</button>
-                    <button class="device-btn" onclick="changeDevice('mobile')">📲 Mobile (375px)</button>
-                </div>
-
                 <div class="preview-container">
-                    <div class="preview-label" id="previewLabel">Email Preview (Gmail-Compatible) - Desktop View</div>
+                    <div class="preview-label">Email Preview (Gmail-Compatible)</div>
                     <div class="preview-content">
-                        <div class="preview-wrapper desktop" id="previewWrapper">
-                            <div class="email-viewport">
-                                <iframe id="previewFrame" sandbox="allow-same-origin"></iframe>
-                            </div>
-                        </div>
+                        <iframe id="previewFrame"></iframe>
                     </div>
                 </div>
 
@@ -528,7 +419,6 @@
                     <p>✅ <strong>Dynamic Placeholders</strong> - Easy customization</p>
                     <p>✅ <strong>Send Emails</strong> - Integrated with Formspree</p>
                     <p>✅ <strong>Transaction Focused</strong> - Bank transfer notifications</p>
-                    <p>✅ <strong>Multi-Device Preview</strong> - Test on any viewport</p>
                     <p>✅ <strong>Naira Currency</strong> - Nigerian NGN support (₦)</p>
                     <p>✅ <strong>PNG Logo Support</strong> - Local file integration</p>
                 </div>
@@ -544,6 +434,8 @@
     <script>
         // Load PNG image as base64
         let logoBase64 = '';
+        let sentCount = 0;
+        let previewCount = 0;
 
         function loadPNGImage() {
             const logoPath = './AddText_04-11-12.53.52.png';
@@ -575,258 +467,80 @@
     <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5;">
         <tr>
             <td align="center" style="padding: 20px 10px;">
-                <!-- Main Container -->
-                <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; background-color: #000000; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); overflow: hidden;">
-                    <!-- Header Section with Logo -->
+                <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; background-color: #0b0b0b; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden;">
                     <tr>
-                        <td align="center" style="padding: 30px 20px; background-color: #000000; border-bottom: 2px solid #D4AF37;">
-                            <img src="${logoUrl}" alt="EmpireStateBank" style="max-width: 100%; height: auto; width: 200px; display: block; margin: 0 auto;">
+                        <td align="center" style="padding: 40px 20px; background-color: #0b0b0b;">
+                            <img src="${logoUrl}" alt="EmpireStateBank Logo" style="max-width: 160px; height: auto; display: block; margin: 0 auto;">
                         </td>
                     </tr>
-
-                    <!-- Greeting Section -->
                     <tr>
-                        <td style="padding: 30px 20px 10px 20px; background-color: #000000;">
-                            <table width="100%" cellpadding="0" cellspacing="0">
+                        <td align="center" style="padding: 30px 20px 20px; background-color: #0b0b0b;">
+                            <h1 style="margin: 0; font-size: 32px; font-weight: 700; color: #d4af37; letter-spacing: 1px;">Transaction Confirmed</h1>
+                            <p style="margin: 8px 0 0 0; font-size: 14px; color: #999; letter-spacing: 0.5px;">Your funds have been successfully transferred</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 30px 20px; background-color: #0b0b0b; color: #ffffff; font-size: 14px; line-height: 1.6;">
+                            <p style="margin: 0 0 20px 0; font-size: 14px;">Dear <strong style="color: #d4af37;">{{customer_name}}</strong>,</p>
+                            <p style="margin: 0 0 30px 0; font-size: 14px; color: #ccc;">Your transaction has been successfully processed. Below are the details:</p>
+                            <table width="100%" border="1" cellspacing="0" cellpadding="15" style="background-color: #1a1a1a; border-color: #d4af37; border-radius: 6px; margin-bottom: 20px;">
                                 <tr>
-                                    <td style="font-size: 18px; color: #FFFFFF; font-weight: 500; line-height: 1.6; word-break: break-word;">
-                                        Hi {{customer_name}},
+                                    <td style="color: #d4af37; font-weight: 600; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">Amount</td>
+                                </tr>
+                                <tr>
+                                    <td style="color: #ffffff; font-size: 18px; font-weight: 700; padding-top: 0;">{{amount}}</td>
+                                </tr>
+                            </table>
+                            <table width="100%" border="1" cellspacing="0" cellpadding="15" style="background-color: #1a1a1a; border-color: #d4af37; border-radius: 6px; margin-bottom: 20px;">
+                                <tr>
+                                    <td>
+                                        <p style="margin: 0 0 12px 0; color: #d4af37; font-weight: 600; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">Recipient Name</p>
+                                        <p style="margin: 0 0 15px 0; color: #ffffff; font-size: 16px; font-weight: 600;">{{recipient_name}}</p>
+                                        <p style="margin: 0 0 8px 0; color: #d4af37; font-weight: 600; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">Bank Name</p>
+                                        <p style="margin: 0 0 15px 0; color: #ffffff; font-size: 16px; font-weight: 600;">{{bank_name}}</p>
+                                        <p style="margin: 0 0 8px 0; color: #d4af37; font-weight: 600; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">Transaction Date</p>
+                                        <p style="margin: 0; color: #ffffff; font-size: 16px; font-weight: 600;">{{transaction_date}}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="15" style="background-color: #252525; border-left: 4px solid #d4af37; border-radius: 4px; margin-bottom: 25px;">
+                                <tr>
+                                    <td style="color: #ccc; font-size: 13px; line-height: 1.6;"><strong style="color: #d4af37;">✓ Secure:</strong> Your transaction is protected with bank-level encryption.</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding: 0 20px 30px 20px; background-color: #0b0b0b;">
+                            <table border="0" cellspacing="0" cellpadding="0" style="background: linear-gradient(135deg, #d4af37 0%, #c49a27 100%); border-radius: 6px; display: inline-block;">
+                                <tr>
+                                    <td align="center" style="padding: 14px 40px;">
+                                        <a href="https://empirestatebank.github.io/Empire-Virtual---Dashboard/" style="display: block; color: #0b0b0b; font-size: 14px; font-weight: 700; letter-spacing: 0.5px; text-decoration: none; text-transform: uppercase;">View Dashboard</a>
                                     </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
-
-                    <!-- Message Section -->
                     <tr>
-                        <td style="padding: 0 20px 20px 20px; background-color: #000000;">
-                            <table width="100%" cellpadding="0" cellspacing="0">
+                        <td style="padding: 0 20px; background-color: #0b0b0b;">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
-                                    <td style="font-size: 14px; color: #CCCCCC; line-height: 1.8; font-weight: 400; word-break: break-word;">
-                                        A transaction has been successfully processed from your EmpireStateBank account.
-                                    </td>
+                                    <td style="border-top: 1px solid #333; height: 1px;"></td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
-
-                    <!-- Divider Line -->
                     <tr>
-                        <td style="padding: 0 20px;">
-                            <table width="100%" cellpadding="0" cellspacing="0">
+                        <td style="padding: 30px 20px; background-color: #0b0b0b; text-align: center;">
+                            <p style="margin: 0 0 15px 0; font-size: 16px; font-weight: 700; color: #d4af37;">EmpireStateBank</p>
+                            <p style="margin: 0 0 20px 0; font-size: 13px; color: #999;">Empowering Your Financial Growth</p>
+                            <table border="0" cellspacing="0" cellpadding="0" style="display: inline-table; margin-bottom: 20px;">
                                 <tr>
-                                    <td style="height: 1px; background-color: #D4AF37;"></td>
+                                    <td style="padding: 0 10px;"><a href="https://empirestatebank.mssg.me" style="color: #d4af37; font-size: 12px; text-decoration: none;">Visit Website</a></td>
+                                    <td style="padding: 0 10px; border-left: 1px solid #d4af37;"><a href="mailto:support@empirestatebank.com" style="color: #d4af37; font-size: 12px; text-decoration: none;">Contact Support</a></td>
                                 </tr>
                             </table>
-                        </td>
-                    </tr>
-
-                    <!-- Transfer Details Section Title -->
-                    <tr>
-                        <td style="padding: 25px 20px 15px 20px; background-color: #000000;">
-                            <table width="100%" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td style="font-size: 16px; color: #D4AF37; font-weight: 700; letter-spacing: 0.5px;">
-                                        Transfer Details
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-                    <!-- Transfer Details Content -->
-                    <tr>
-                        <td style="padding: 0 20px 25px 20px; background-color: #000000;">
-                            <table width="100%" cellpadding="0" cellspacing="0">
-                                <!-- Recipient Name -->
-                                <tr>
-                                    <td style="padding: 12px 0; border-bottom: 1px solid #333333;">
-                                        <table width="100%" cellpadding="0" cellspacing="0">
-                                            <tr>
-                                                <td style="font-size: 12px; color: #999999; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding-bottom: 5px; word-break: break-word;">
-                                                    Recipient Name
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-size: 14px; color: #FFFFFF; font-weight: 500; word-break: break-word;">
-                                                    {{recipient_name}}
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-
-                                <!-- Amount -->
-                                <tr>
-                                    <td style="padding: 12px 0; border-bottom: 1px solid #333333;">
-                                        <table width="100%" cellpadding="0" cellspacing="0">
-                                            <tr>
-                                                <td style="font-size: 12px; color: #999999; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding-bottom: 5px; word-break: break-word;">
-                                                    Amount
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-size: 18px; color: #D4AF37; font-weight: 700; letter-spacing: 0.5px; word-break: break-word;">
-                                                    {{amount}}
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-
-                                <!-- Bank -->
-                                <tr>
-                                    <td style="padding: 12px 0; border-bottom: 1px solid #333333;">
-                                        <table width="100%" cellpadding="0" cellspacing="0">
-                                            <tr>
-                                                <td style="font-size: 12px; color: #999999; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding-bottom: 5px; word-break: break-word;">
-                                                    Bank
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-size: 14px; color: #FFFFFF; font-weight: 500; word-break: break-word;">
-                                                    {{bank_name}}
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-
-                                <!-- Date -->
-                                <tr>
-                                    <td style="padding: 12px 0;">
-                                        <table width="100%" cellpadding="0" cellspacing="0">
-                                            <tr>
-                                                <td style="font-size: 12px; color: #999999; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding-bottom: 5px; word-break: break-word;">
-                                                    Date
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="font-size: 14px; color: #FFFFFF; font-weight: 500; word-break: break-word;">
-                                                    {{date}}
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-                    <!-- Divider Line -->
-                    <tr>
-                        <td style="padding: 0 20px;">
-                            <table width="100%" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td style="height: 1px; background-color: #D4AF37;"></td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-                    <!-- Buttons Section -->
-                    <tr>
-                        <td style="padding: 25px 20px; background-color: #000000;">
-                            <table width="100%" cellpadding="0" cellspacing="0">
-                                <!-- Primary Button -->
-                                <tr>
-                                    <td align="center" style="padding-bottom: 12px;">
-                                        <a href="https://your-dashboard-link.com" style="display: inline-block; background-color: #D4AF37; color: #000000; padding: 12px 40px; text-decoration: none; border-radius: 6px; font-weight: 700; font-size: 14px; letter-spacing: 0.5px; transition: background-color 0.3s ease; word-break: break-word;">
-                                            View Dashboard
-                                        </a>
-                                    </td>
-                                </tr>
-
-                                <!-- Secondary Button -->
-                                <tr>
-                                    <td align="center">
-                                        <a href="https://your-website-link.com" style="display: inline-block; background-color: transparent; color: #D4AF37; padding: 12px 40px; text-decoration: none; border: 2px solid #D4AF37; border-radius: 6px; font-weight: 700; font-size: 14px; letter-spacing: 0.5px; transition: all 0.3s ease; word-break: break-word;">
-                                            Visit Website
-                                        </a>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-                    <!-- Divider Line -->
-                    <tr>
-                        <td style="padding: 0 20px;">
-                            <table width="100%" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td style="height: 1px; background-color: #D4AF37;"></td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-                    <!-- Rating Section -->
-                    <tr>
-                        <td style="padding: 25px 20px; background-color: #000000; text-align: center;">
-                            <table width="100%" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td align="center">
-                                        <table cellpadding="0" cellspacing="0" align="center">
-                                            <tr>
-                                                <td style="font-size: 14px; color: #999999; font-weight: 500; padding-right: 10px; word-break: break-word;">
-                                                    Rate us
-                                                </td>
-                                                <td style="font-size: 16px; color: #D4AF37; font-weight: 700; letter-spacing: 2px;">
-                                                    ★★★★★
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-                    <!-- Divider Line -->
-                    <tr>
-                        <td style="padding: 0 20px;">
-                            <table width="100%" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td style="height: 1px; background-color: #D4AF37;"></td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-                    <!-- Footer Section -->
-                    <tr>
-                        <td style="padding: 25px 20px; background-color: #000000; border-top: 2px solid #D4AF37;">
-                            <table width="100%" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td align="center">
-                                        <table cellpadding="0" cellspacing="0" align="center">
-                                            <tr>
-                                                <td style="font-size: 12px; color: #999999; text-align: center; line-height: 1.8; word-break: break-word;">
-                                                    <strong style="color: #D4AF37;">Customer Support</strong><br>
-                                                    Email: <a href="mailto:empirevirtual99@gmail.com" style="color: #D4AF37; text-decoration: none; font-weight: 500;">empirevirtual99@gmail.com</a>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="padding-top: 15px; text-align: center;">
-                                        <table width="100%" cellpadding="0" cellspacing="0">
-                                            <tr>
-                                                <td style="height: 1px; background-color: #333333;"></td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="padding-top: 15px; text-align: center;">
-                                        <p style="margin: 0; font-size: 11px; color: #666666; line-height: 1.6; word-break: break-word;">
-                                            © 2026 EmpireStateBank. All rights reserved.<br>
-                                            This is an automated message. Please do not reply to this email.
-                                        </p>
-                                    </td>
-                                </tr>
-                            </table>
+                            <p style="margin: 0; font-size: 11px; color: #666; line-height: 1.6;">© 2026 EmpireStateBank. All rights reserved.<br>This email contains confidential information intended only for the recipient.</p>
                         </td>
                     </tr>
                 </table>
@@ -837,34 +551,75 @@
 </html>`;
         }
 
-        const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xzzeredj';
-        
-        let sentCount = 0;
-        let previewCount = 0;
-        let currentDevice = 'desktop';
+        loadPNGImage();
 
-        function changeDevice(device) {
-            currentDevice = device;
-            const wrapper = document.getElementById('previewWrapper');
-            const label = document.getElementById('previewLabel');
-            const buttons = document.querySelectorAll('.device-btn');
+        function previewEmail() {
+            const customerName = document.getElementById('customerName').value || 'Customer';
+            const recipientName = document.getElementById('recipientName').value || 'Recipient';
+            const amount = document.getElementById('amount').value || '₦0.00';
+            const bankName = document.getElementById('bankName').value || 'Bank Name';
+            const transactionDate = document.getElementById('transactionDate').value || new Date().toISOString().split('T')[0];
 
-            buttons.forEach(btn => btn.classList.remove('active'));
+            let emailHtml = getEmailTemplate(logoBase64);
+            emailHtml = emailHtml.replace(/{{customer_name}}/g, customerName);
+            emailHtml = emailHtml.replace(/{{recipient_name}}/g, recipientName);
+            emailHtml = emailHtml.replace(/{{amount}}/g, amount);
+            emailHtml = emailHtml.replace(/{{bank_name}}/g, bankName);
+            emailHtml = emailHtml.replace(/{{transaction_date}}/g, transactionDate);
 
-            wrapper.className = `preview-wrapper ${device}`;
-            
-            if (device === 'desktop') {
-                label.textContent = 'Email Preview (Gmail-Compatible) - Desktop View (600px)';
-                buttons[0].classList.add('active');
-            } else if (device === 'tablet') {
-                label.textContent = 'Email Preview (Gmail-Compatible) - Tablet View (768px)';
-                buttons[1].classList.add('active');
-            } else if (device === 'mobile') {
-                label.textContent = 'Email Preview (Gmail-Compatible) - Mobile View (375px)';
-                buttons[2].classList.add('active');
-            }
+            const iframe = document.getElementById('previewFrame');
+            iframe.srcdoc = emailHtml;
 
-            previewEmail();
+            previewCount++;
+            document.getElementById('stat-previews').textContent = previewCount;
+
+            showAlert('✅ Email preview generated successfully!', 'success');
+        }
+
+        function copyEmailCode() {
+            const customerName = document.getElementById('customerName').value || 'Customer';
+            const recipientName = document.getElementById('recipientName').value || 'Recipient';
+            const amount = document.getElementById('amount').value || '₦0.00';
+            const bankName = document.getElementById('bankName').value || 'Bank Name';
+            const transactionDate = document.getElementById('transactionDate').value || new Date().toISOString().split('T')[0];
+
+            let emailHtml = getEmailTemplate(logoBase64);
+            emailHtml = emailHtml.replace(/{{customer_name}}/g, customerName);
+            emailHtml = emailHtml.replace(/{{recipient_name}}/g, recipientName);
+            emailHtml = emailHtml.replace(/{{amount}}/g, amount);
+            emailHtml = emailHtml.replace(/{{bank_name}}/g, bankName);
+            emailHtml = emailHtml.replace(/{{transaction_date}}/g, transactionDate);
+
+            navigator.clipboard.writeText(emailHtml).then(() => {
+                showAlert('✅ Email HTML copied to clipboard!', 'success');
+            }).catch(() => {
+                showAlert('❌ Failed to copy. Please try again.', 'error');
+            });
+        }
+
+        function downloadEmail() {
+            const customerName = document.getElementById('customerName').value || 'Customer';
+            const recipientName = document.getElementById('recipientName').value || 'Recipient';
+            const amount = document.getElementById('amount').value || '₦0.00';
+            const bankName = document.getElementById('bankName').value || 'Bank Name';
+            const transactionDate = document.getElementById('transactionDate').value || new Date().toISOString().split('T')[0];
+
+            let emailHtml = getEmailTemplate(logoBase64);
+            emailHtml = emailHtml.replace(/{{customer_name}}/g, customerName);
+            emailHtml = emailHtml.replace(/{{recipient_name}}/g, recipientName);
+            emailHtml = emailHtml.replace(/{{amount}}/g, amount);
+            emailHtml = emailHtml.replace(/{{bank_name}}/g, bankName);
+            emailHtml = emailHtml.replace(/{{transaction_date}}/g, transactionDate);
+
+            const blob = new Blob([emailHtml], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'transaction-notification-email.html';
+            a.click();
+            URL.revokeObjectURL(url);
+
+            showAlert('⬇️ Email downloaded successfully!', 'success');
         }
 
         function toggleMode() {
@@ -872,7 +627,7 @@
             const sendSection = document.getElementById('sendConfigSection');
             const sendBtn = document.getElementById('sendBtn');
             const modeBadge = document.getElementById('modeBadge');
-            
+
             if (mode === 'send') {
                 sendSection.style.display = 'block';
                 sendBtn.style.display = 'flex';
@@ -890,121 +645,16 @@
         function showAlert(message, type = 'info') {
             const alert = document.getElementById('alert');
             alert.textContent = message;
-            alert.className = `alert show ${type}`;
-            setTimeout(() => alert.classList.remove('show'), 6000);
+            alert.className = 'alert show ' + type;
+            setTimeout(() => {
+                alert.classList.remove('show');
+            }, 5000);
         }
 
-        function formatDate(dateStr) {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            return new Date(dateStr).toLocaleDateString('en-US', options);
-        }
-
-        function generateHTML(data) {
-            const emailTemplate = getEmailTemplate(data.logoUrl);
-            let html = emailTemplate;
-            html = html.replace(/{{customer_name}}/g, data.customerName);
-            html = html.replace(/{{recipient_name}}/g, data.recipientName);
-            html = html.replace(/{{amount}}/g, data.amount);
-            html = html.replace(/{{bank_name}}/g, data.bankName);
-            html = html.replace(/{{date}}/g, formatDate(data.transactionDate));
-            return html;
-        }
-
-        function previewEmail() {
-            const customerName = document.getElementById('customerName').value;
-            const recipientName = document.getElementById('recipientName').value;
-            const amount = document.getElementById('amount').value;
-            const bankName = document.getElementById('bankName').value;
-            const transactionDate = document.getElementById('transactionDate').value;
-
-            if (!customerName || !recipientName || !amount || !bankName || !transactionDate) {
-                showAlert('❌ Please fill in all required fields', 'error');
-                return;
-            }
-
-            if (!logoBase64) {
-                showAlert('⏳ Loading logo image...', 'info');
-                return;
-            }
-
-            const html = generateHTML({ customerName, recipientName, amount, bankName, transactionDate, logoUrl: logoBase64 });
-            const iframe = document.getElementById('previewFrame');
-            iframe.srcdoc = html;
-            previewCount++;
-            document.getElementById('stat-previews').textContent = previewCount;
-            showAlert('✅ Email preview updated!', 'success');
-        }
-
-        function copyEmailCode() {
-            const customerName = document.getElementById('customerName').value;
-            const recipientName = document.getElementById('recipientName').value;
-            const amount = document.getElementById('amount').value;
-            const bankName = document.getElementById('bankName').value;
-            const transactionDate = document.getElementById('transactionDate').value;
-
-            if (!customerName || !recipientName || !amount || !bankName || !transactionDate) {
-                showAlert('❌ Please fill in all required fields', 'error');
-                return;
-            }
-
-            if (!logoBase64) {
-                showAlert('❌ Logo image not loaded', 'error');
-                return;
-            }
-
-            const html = generateHTML({ customerName, recipientName, amount, bankName, transactionDate, logoUrl: logoBase64 });
-            navigator.clipboard.writeText(html).then(() => {
-                showAlert('✅ HTML copied to clipboard!', 'success');
-            }).catch(() => {
-                showAlert('❌ Failed to copy.', 'error');
-            });
-        }
-
-        function downloadEmail() {
-            const customerName = document.getElementById('customerName').value;
-            const recipientName = document.getElementById('recipientName').value;
-            const amount = document.getElementById('amount').value;
-            const bankName = document.getElementById('bankName').value;
-            const transactionDate = document.getElementById('transactionDate').value;
-
-            if (!customerName || !recipientName || !amount || !bankName || !transactionDate) {
-                showAlert('❌ Please fill in all required fields', 'error');
-                return;
-            }
-
-            if (!logoBase64) {
-                showAlert('❌ Logo image not loaded', 'error');
-                return;
-            }
-
-            const html = generateHTML({ customerName, recipientName, amount, bankName, transactionDate, logoUrl: logoBase64 });
-            const blob = new Blob([html], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'transaction-notification-email.html';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            showAlert('✅ Email downloaded!', 'success');
-        }
-
-        async function sendEmailNow() {
-            const customerName = document.getElementById('customerName').value;
-            const recipientName = document.getElementById('recipientName').value;
-            const amount = document.getElementById('amount').value;
-            const bankName = document.getElementById('bankName').value;
-            const transactionDate = document.getElementById('transactionDate').value;
+        function sendEmailNow() {
             const toEmail = document.getElementById('toEmail').value;
-
-            if (!customerName || !recipientName || !amount || !bankName || !transactionDate || !toEmail) {
-                showAlert('❌ Please fill in all fields', 'error');
-                return;
-            }
-
-            if (!logoBase64) {
-                showAlert('❌ Logo image not loaded', 'error');
+            if (!toEmail) {
+                showAlert('❌ Please enter a customer email address', 'error');
                 return;
             }
 
@@ -1013,51 +663,52 @@
             sendBtn.disabled = true;
             sendBtnText.textContent = '⏳ Sending...';
 
-            try {
-                const html = generateHTML({ customerName, recipientName, amount, bankName, transactionDate, logoUrl: logoBase64 });
-                
-                const payload = {
+            const customerName = document.getElementById('customerName').value || 'Customer';
+            const recipientName = document.getElementById('recipientName').value || 'Recipient';
+            const amount = document.getElementById('amount').value || '₦0.00';
+            const bankName = document.getElementById('bankName').value || 'Bank Name';
+            const transactionDate = document.getElementById('transactionDate').value || new Date().toISOString().split('T')[0];
+
+            let emailHtml = getEmailTemplate(logoBase64);
+            emailHtml = emailHtml.replace(/{{customer_name}}/g, customerName);
+            emailHtml = emailHtml.replace(/{{recipient_name}}/g, recipientName);
+            emailHtml = emailHtml.replace(/{{amount}}/g, amount);
+            emailHtml = emailHtml.replace(/{{bank_name}}/g, bankName);
+            emailHtml = emailHtml.replace(/{{transaction_date}}/g, transactionDate);
+
+            fetch('https://formspree.io/f/xzzeredj', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
                     email: toEmail,
-                    name: customerName,
                     subject: 'Transaction Notification - EmpireStateBank',
-                    message: `Customer: ${customerName}\nRecipient: ${recipientName}\nAmount: ${amount}\nBank: ${bankName}\nDate: ${formatDate(transactionDate)}`
-                };
-
-                const response = await fetch(FORMSPREE_ENDPOINT, {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(payload)
-                });
-
-                console.log('Response status:', response.status);
-                const responseData = await response.json();
-                console.log('Response:', responseData);
-
+                    message: emailHtml
+                })
+            })
+            .then(response => {
                 if (response.ok) {
-                    showAlert(`✅ Transaction notification successfully sent to ${toEmail}!`, 'success');
+                    showAlert('✅ Email sent successfully!', 'success');
                     sentCount++;
                     document.getElementById('stat-sent').textContent = sentCount;
-                    document.getElementById('toEmail').value = '';
                 } else {
-                    showAlert(`❌ Error: ${responseData.error || 'Unknown error'}`, 'error');
+                    showAlert('❌ Failed to send email. Please try again.', 'error');
                 }
-            } catch (error) {
-                console.error('Fetch error:', error);
-                showAlert('❌ Failed to send. Please check your connection and try again.', 'error');
-            } finally {
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert('❌ Error sending email: ' + error.message, 'error');
+            })
+            .finally(() => {
                 sendBtn.disabled = false;
                 sendBtnText.textContent = '📤 Send Email';
-            }
+            });
         }
 
-        window.addEventListener('load', function() {
-            loadPNGImage();
-            setTimeout(() => {
-                previewEmail();
-            }, 1000);
+        // Load preview on page load
+        window.addEventListener('load', () => {
+            previewEmail();
         });
     </script>
 </body>
