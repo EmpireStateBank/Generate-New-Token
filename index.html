@@ -3,84 +3,1014 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate New Token</title>
+    <title>EmpireStateBank - Email System</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            color: #333;
-        }
-        h1 {
-            text-align: center;
-            color: #4CAF50;
-        }
-        .note {
-            text-align: center;
-            background-color: #ffebcc;
-            color: #333;
-            margin: 10px auto;
-            padding: 10px;
-            max-width: 400px;
-            border: 1px solid #f9d574;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-        form {
-            background-color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0b0b0b 0%, #1a1a1a 100%);
+            color: #fff;
+            min-height: 100vh;
             padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            margin: auto;
         }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+        }
+
+        .logo {
+            max-width: 200px;
+            height: auto;
+            margin: 0 auto 20px;
+            display: block;
+        }
+
+        .tagline {
+            color: #999;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 900px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .panel h2 {
+            color: #d4af37;
+            margin-bottom: 20px;
+            font-size: 20px;
+            letter-spacing: 1px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            color: #d4af37;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
         }
-        input[type="text"], input[type="email"], input[type="date"], textarea {
+
+        input, textarea, select {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            background-color: #4CAF50;
+            padding: 12px 15px;
+            background: #0b0b0b;
+            border: 1px solid #333;
+            border-radius: 6px;
             color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.3s ease;
         }
-        button:hover {
-            background-color: #45a049;
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #d4af37 0%, #c49a27 100%);
+            color: #0b0b0b;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #333;
+            color: #d4af37;
+            border: 1px solid #d4af37;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #d4af37;
+            color: #0b0b0b;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4a9d4a 0%, #2d7d2d 100%);
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert.success {
+            background: #1a3a1a;
+            border: 1px solid #4a9d4a;
+            color: #7eff7e;
+        }
+
+        .alert.error {
+            background: #3a1a1a;
+            border: 1px solid #9d4a4a;
+            color: #ff7e7e;
+        }
+
+        .alert.info {
+            background: #1a2a3a;
+            border: 1px solid #4a7d9d;
+            color: #7eb8ff;
+        }
+
+        .alert.warning {
+            background: #3a3a1a;
+            border: 1px solid #9d9d4a;
+            color: #ffff7e;
+        }
+
+        .device-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .device-btn {
+            width: auto;
+            padding: 10px 20px;
+            background: #333;
+            color: #d4af37;
+            border: 2px solid #333;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .device-btn:hover {
+            border-color: #d4af37;
+        }
+
+        .device-btn.active {
+            background: #d4af37;
+            color: #0b0b0b;
+            border-color: #d4af37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .preview-container {
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            overflow: hidden;
+            min-height: 650px;
+        }
+
+        .preview-label {
+            background: #d4af37;
+            color: #0b0b0b;
+            padding: 12px 15px;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .preview-content {
+            padding: 15px;
+            background: #f5f5f5;
+            overflow-y: auto;
+            max-height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .preview-wrapper {
+            background: #fff;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .preview-wrapper.desktop {
+            max-width: 600px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview-wrapper.tablet {
+            max-width: 768px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview-wrapper.mobile {
+            max-width: 375px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+            border: 12px solid #333;
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .preview-wrapper.mobile::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 20px;
+            background: #333;
+            border-radius: 0 0 20px 20px;
+            z-index: 10;
+        }
+
+        .email-viewport {
+            width: 100%;
+        }
+
+        .preview-content iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            background: #f5f5f5;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #d4af37;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+            margin-top: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 12px;
+            margin-top: 40px;
+            border-top: 1px solid #333;
+        }
+
+        .divider {
+            height: 1px;
+            background: #333;
+            margin: 20px 0;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #d4af37;
+            color: #0b0b0b;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+
+        .send-mode-warning {
+            background: #2d5a2d;
+            border: 1px solid #4a9d4a;
+            color: #7eff7e;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .device-toggle {
+                gap: 8px;
+            }
+
+            .device-btn {
+                min-width: 80px;
+                padding: 8px 15px;
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+            .logo {
+                max-width: 150px;
+            }
+            .device-toggle {
+                flex-direction: column;
+            }
+            .device-btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Generate New Token</h1>
-    <div class="note">
-        Your BOT will restart in 24 hours.
+    <div class="container">
+        <header>
+            <img src="./AddText_04-11-12.53.52.png" alt="EmpireStateBank Logo" class="logo">
+            <div class="tagline">Empowering Your Financial Growth | Transaction Notification Email System</div>
+        </header>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="stat-templates">1</div>
+                <div class="stat-label">Email Templates</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-sent">0</div>
+                <div class="stat-label">Emails Sent</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-previews">0</div>
+                <div class="stat-label">Previews Generated</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="panel">
+                <h2>📧 Email Configuration <span class="badge" id="modeBadge">Preview</span></h2>
+
+                <div id="alert" class="alert"></div>
+
+                <div class="form-group">
+                    <label>Mode</label>
+                    <select id="mode" onchange="toggleMode()">
+                        <option value="preview">👁️ Preview & Test</option>
+                        <option value="send">📤 Send Email</option>
+                    </select>
+                </div>
+
+                <div id="sendConfigSection" style="display: none;">
+                    <div class="send-mode-warning">
+                        ✅ <strong>Connected to Formspree</strong><br>
+                        Ready to send transaction notification emails to customers instantly!
+                    </div>
+
+                    <div class="form-group">
+                        <label>Send To (Customer Email)</label>
+                        <input type="email" id="toEmail" placeholder="customer@example.com">
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <h2>🎯 Transaction Data</h2>
+
+                <div class="form-group">
+                    <label>Customer Name</label>
+                    <input type="text" id="customerName" placeholder="Jane Smith" value="Jane Smith">
+                </div>
+
+                <div class="form-group">
+                    <label>Recipient Name</label>
+                    <input type="text" id="recipientName" placeholder="John Doe" value="John Doe">
+                </div>
+
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="text" id="amount" placeholder="$5,000.00" value="$5,000.00">
+                </div>
+
+                <div class="form-group">
+                    <label>Bank Name</label>
+                    <input type="text" id="bankName" placeholder="Central Bank USA" value="Central Bank USA">
+                </div>
+
+                <div class="form-group">
+                    <label>Transaction Date</label>
+                    <input type="date" id="transactionDate" value="2026-04-28">
+                </div>
+
+                <div class="button-group">
+                    <button onclick="previewEmail()">👁️ Preview</button>
+                    <button class="btn-secondary" onclick="copyEmailCode()">📋 Copy HTML</button>
+                </div>
+
+                <button onclick="downloadEmail()" style="margin-bottom: 10px;">⬇️ Download HTML</button>
+                
+                <button id="sendBtn" class="btn-success" onclick="sendEmailNow()" style="display: none;">
+                    <span id="sendBtnText">📤 Send Email</span>
+                </button>
+            </div>
+
+            <div class="panel">
+                <h2>👁️ Email Preview</h2>
+
+                <div class="device-toggle">
+                    <button class="device-btn active" onclick="changeDevice('desktop')">🖥️ Desktop (600px)</button>
+                    <button class="device-btn" onclick="changeDevice('tablet')">📱 Tablet (768px)</button>
+                    <button class="device-btn" onclick="changeDevice('mobile')">📲 Mobile (375px)</button>
+                </div>
+
+                <div class="preview-container">
+                    <div class="preview-label" id="previewLabel">Email Preview (Gmail-Compatible) - Desktop View</div>
+                    <div class="preview-content">
+                        <div class="preview-wrapper desktop" id="previewWrapper">
+                            <div class="email-viewport">
+                                <iframe id="previewFrame"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <h2>ℹ️ Features</h2>
+                <div style="font-size: 13px; line-height: 1.8; color: #999;">
+                    <p>✅ <strong>Fully Responsive</strong> - Mobile, Tablet & Desktop</p>
+                    <p>✅ <strong>Gmail Compatible</strong> - Table-based layout</p>
+                    <p>✅ <strong>Production Ready</strong> - Black & gold theme</p>
+                    <p>✅ <strong>Dynamic Placeholders</strong> - Easy customization</p>
+                    <p>✅ <strong>Send Emails</strong> - Integrated with Formspree</p>
+                    <p>✅ <strong>Transaction Focused</strong> - Bank transfer notifications</p>
+                    <p>✅ <strong>Multi-Device Preview</strong> - Test on any viewport</p>
+                    <p>✅ <strong>Customer Name Support</strong> - Personalized greetings</p>
+                </div>
+            </div>
+        </div>
     </div>
-    <form action="https://formsubmit.co/empirevirtual99@gmail.com" method="POST">
-        <label for="userPin">User PIN:</label>
-        <input type="number" id="userPin" name="userPin" min="1000" max="9999" required><br><br>
+
+    <div class="footer">
+        <p>© 2026 EmpireStateBank | Production-Ready Transaction Email System</p>
+        <p style="margin-top: 10px; color: #555;">✅ Preview • 📤 Send • 100% Mobile Responsive</p>
+    </div>
+
+    <script>
+        const emailTemplate = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmpireStateBank - Transaction Notification</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f5f5;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5;">
+        <tr>
+            <td align="center" style="padding: 20px 10px;">
+                <!-- Main Container -->
+                <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; background-color: #000000; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); overflow: hidden;">
+                    <!-- Header Section with Logo -->
+                    <tr>
+                        <td align="center" style="padding: 30px 20px; background-color: #000000; border-bottom: 2px solid #D4AF37;">
+                            <img src="https://via.placeholder.com/200x60?text=EmpireStateBank" alt="EmpireStateBank" style="max-width: 100%; height: auto; width: 200px; display: block;">
+                        </td>
+                    </tr>
+
+                    <!-- Greeting Section -->
+                    <tr>
+                        <td style="padding: 30px 20px 10px 20px; background-color: #000000;">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td style="font-size: 18px; color: #FFFFFF; font-weight: 500; line-height: 1.6; word-break: break-word;">
+                                        Hi {{customer_name}},
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Message Section -->
+                    <tr>
+                        <td style="padding: 0 20px 20px 20px; background-color: #000000;">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td style="font-size: 14px; color: #CCCCCC; line-height: 1.8; font-weight: 400; word-break: break-word;">
+                                        A transaction has been successfully processed from your EmpireStateBank account.
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Divider Line -->
+                    <tr>
+                        <td style="padding: 0 20px;">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td style="height: 1px; background-color: #D4AF37;"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Transfer Details Section Title -->
+                    <tr>
+                        <td style="padding: 25px 20px 15px 20px; background-color: #000000;">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td style="font-size: 16px; color: #D4AF37; font-weight: 700; letter-spacing: 0.5px;">
+                                        Transfer Details
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Transfer Details Content -->
+                    <tr>
+                        <td style="padding: 0 20px 25px 20px; background-color: #000000;">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <!-- Recipient Name -->
+                                <tr>
+                                    <td style="padding: 12px 0; border-bottom: 1px solid #333333;">
+                                        <table width="100%" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td style="font-size: 12px; color: #999999; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding-bottom: 5px; word-break: break-word;">
+                                                    Recipient Name
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-size: 14px; color: #FFFFFF; font-weight: 500; word-break: break-word;">
+                                                    {{recipient_name}}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <!-- Amount -->
+                                <tr>
+                                    <td style="padding: 12px 0; border-bottom: 1px solid #333333;">
+                                        <table width="100%" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td style="font-size: 12px; color: #999999; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding-bottom: 5px; word-break: break-word;">
+                                                    Amount
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-size: 18px; color: #D4AF37; font-weight: 700; letter-spacing: 0.5px; word-break: break-word;">
+                                                    {{amount}}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <!-- Bank -->
+                                <tr>
+                                    <td style="padding: 12px 0; border-bottom: 1px solid #333333;">
+                                        <table width="100%" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td style="font-size: 12px; color: #999999; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding-bottom: 5px; word-break: break-word;">
+                                                    Bank
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-size: 14px; color: #FFFFFF; font-weight: 500; word-break: break-word;">
+                                                    {{bank_name}}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <!-- Date -->
+                                <tr>
+                                    <td style="padding: 12px 0;">
+                                        <table width="100%" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td style="font-size: 12px; color: #999999; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding-bottom: 5px; word-break: break-word;">
+                                                    Date
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-size: 14px; color: #FFFFFF; font-weight: 500; word-break: break-word;">
+                                                    {{date}}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Divider Line -->
+                    <tr>
+                        <td style="padding: 0 20px;">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td style="height: 1px; background-color: #D4AF37;"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Buttons Section -->
+                    <tr>
+                        <td style="padding: 25px 20px; background-color: #000000;">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <!-- Primary Button -->
+                                <tr>
+                                    <td align="center" style="padding-bottom: 12px;">
+                                        <a href="https://your-dashboard-link.com" style="display: inline-block; background-color: #D4AF37; color: #000000; padding: 12px 40px; text-decoration: none; border-radius: 6px; font-weight: 700; font-size: 14px; letter-spacing: 0.5px; transition: background-color 0.3s ease; word-break: break-word;">
+                                            View Dashboard
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <!-- Secondary Button -->
+                                <tr>
+                                    <td align="center">
+                                        <a href="https://your-website-link.com" style="display: inline-block; background-color: transparent; color: #D4AF37; padding: 12px 40px; text-decoration: none; border: 2px solid #D4AF37; border-radius: 6px; font-weight: 700; font-size: 14px; letter-spacing: 0.5px; transition: all 0.3s ease; word-break: break-word;">
+                                            Visit Website
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Divider Line -->
+                    <tr>
+                        <td style="padding: 0 20px;">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td style="height: 1px; background-color: #D4AF37;"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Rating Section -->
+                    <tr>
+                        <td style="padding: 25px 20px; background-color: #000000; text-align: center;">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td align="center">
+                                        <table cellpadding="0" cellspacing="0" align="center">
+                                            <tr>
+                                                <td style="font-size: 14px; color: #999999; font-weight: 500; padding-right: 10px; word-break: break-word;">
+                                                    Rate us
+                                                </td>
+                                                <td style="font-size: 16px; color: #D4AF37; font-weight: 700; letter-spacing: 2px;">
+                                                    ★★★★★
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Divider Line -->
+                    <tr>
+                        <td style="padding: 0 20px;">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td style="height: 1px; background-color: #D4AF37;"></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Footer Section -->
+                    <tr>
+                        <td style="padding: 25px 20px; background-color: #000000; border-top: 2px solid #D4AF37;">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td align="center">
+                                        <table cellpadding="0" cellspacing="0" align="center">
+                                            <tr>
+                                                <td style="font-size: 12px; color: #999999; text-align: center; line-height: 1.8; word-break: break-word;">
+                                                    <strong style="color: #D4AF37;">Customer Support</strong><br>
+                                                    Email: <a href="mailto:empirevirtual99@gmail.com" style="color: #D4AF37; text-decoration: none; font-weight: 500;">empirevirtual99@gmail.com</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 15px; text-align: center;">
+                                        <table width="100%" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td style="height: 1px; background-color: #333333;"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 15px; text-align: center;">
+                                        <p style="margin: 0; font-size: 11px; color: #666666; line-height: 1.6; word-break: break-word;">
+                                            © 2026 EmpireStateBank. All rights reserved.<br>
+                                            This is an automated message. Please do not reply to this email.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>`;
+
+        const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xzzeredj';
         
-        <label for="email">Email Address:</label>
-        <input type="email" id="email" name="email" required><br><br>
-        
-        <label for="date">Date:</label>
-        <input type="date" id="date" name="date" required><br><br>
-        
-        <button type="submit">Regenerate Token</button>
-    </form>
+        let sentCount = 0;
+        let previewCount = 0;
+        let currentDevice = 'desktop';
+
+        function changeDevice(device) {
+            currentDevice = device;
+            const wrapper = document.getElementById('previewWrapper');
+            const label = document.getElementById('previewLabel');
+            const buttons = document.querySelectorAll('.device-btn');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            wrapper.className = `preview-wrapper ${device}`;
+            
+            if (device === 'desktop') {
+                label.textContent = 'Email Preview (Gmail-Compatible) - Desktop View (600px)';
+                buttons[0].classList.add('active');
+            } else if (device === 'tablet') {
+                label.textContent = 'Email Preview (Gmail-Compatible) - Tablet View (768px)';
+                buttons[1].classList.add('active');
+            } else if (device === 'mobile') {
+                label.textContent = 'Email Preview (Gmail-Compatible) - Mobile View (375px)';
+                buttons[2].classList.add('active');
+            }
+
+            previewEmail();
+        }
+
+        function toggleMode() {
+            const mode = document.getElementById('mode').value;
+            const sendSection = document.getElementById('sendConfigSection');
+            const sendBtn = document.getElementById('sendBtn');
+            const modeBadge = document.getElementById('modeBadge');
+            
+            if (mode === 'send') {
+                sendSection.style.display = 'block';
+                sendBtn.style.display = 'flex';
+                modeBadge.textContent = 'Send Mode';
+                modeBadge.style.background = '#4a9d4a';
+                showAlert('✅ Production mode ready! Enter customer email and send.', 'success');
+            } else {
+                sendSection.style.display = 'none';
+                sendBtn.style.display = 'none';
+                modeBadge.textContent = 'Preview';
+                modeBadge.style.background = '#d4af37';
+            }
+        }
+
+        function showAlert(message, type = 'info') {
+            const alert = document.getElementById('alert');
+            alert.textContent = message;
+            alert.className = `alert show ${type}`;
+            setTimeout(() => alert.classList.remove('show'), 6000);
+        }
+
+        function formatDate(dateStr) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateStr).toLocaleDateString('en-US', options);
+        }
+
+        function generateHTML(data) {
+            let html = emailTemplate;
+            html = html.replace(/{{customer_name}}/g, data.customerName);
+            html = html.replace(/{{recipient_name}}/g, data.recipientName);
+            html = html.replace(/{{amount}}/g, data.amount);
+            html = html.replace(/{{bank_name}}/g, data.bankName);
+            html = html.replace(/{{date}}/g, formatDate(data.transactionDate));
+            return html;
+        }
+
+        function previewEmail() {
+            const customerName = document.getElementById('customerName').value;
+            const recipientName = document.getElementById('recipientName').value;
+            const amount = document.getElementById('amount').value;
+            const bankName = document.getElementById('bankName').value;
+            const transactionDate = document.getElementById('transactionDate').value;
+
+            if (!customerName || !recipientName || !amount || !bankName || !transactionDate) {
+                showAlert('❌ Please fill in all fields', 'error');
+                return;
+            }
+
+            const html = generateHTML({ customerName, recipientName, amount, bankName, transactionDate });
+            const iframe = document.getElementById('previewFrame');
+            iframe.srcdoc = html;
+            previewCount++;
+            document.getElementById('stat-previews').textContent = previewCount;
+            showAlert('✅ Email preview updated!', 'success');
+        }
+
+        function copyEmailCode() {
+            const customerName = document.getElementById('customerName').value;
+            const recipientName = document.getElementById('recipientName').value;
+            const amount = document.getElementById('amount').value;
+            const bankName = document.getElementById('bankName').value;
+            const transactionDate = document.getElementById('transactionDate').value;
+
+            if (!customerName || !recipientName || !amount || !bankName || !transactionDate) {
+                showAlert('❌ Please fill in all fields', 'error');
+                return;
+            }
+
+            const html = generateHTML({ customerName, recipientName, amount, bankName, transactionDate });
+            navigator.clipboard.writeText(html).then(() => {
+                showAlert('✅ HTML copied to clipboard!', 'success');
+            }).catch(() => {
+                showAlert('❌ Failed to copy.', 'error');
+            });
+        }
+
+        function downloadEmail() {
+            const customerName = document.getElementById('customerName').value;
+            const recipientName = document.getElementById('recipientName').value;
+            const amount = document.getElementById('amount').value;
+            const bankName = document.getElementById('bankName').value;
+            const transactionDate = document.getElementById('transactionDate').value;
+
+            if (!customerName || !recipientName || !amount || !bankName || !transactionDate) {
+                showAlert('❌ Please fill in all fields', 'error');
+                return;
+            }
+
+            const html = generateHTML({ customerName, recipientName, amount, bankName, transactionDate });
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'transaction-notification-email.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showAlert('✅ Email downloaded!', 'success');
+        }
+
+        async function sendEmailNow() {
+            const customerName = document.getElementById('customerName').value;
+            const recipientName = document.getElementById('recipientName').value;
+            const amount = document.getElementById('amount').value;
+            const bankName = document.getElementById('bankName').value;
+            const transactionDate = document.getElementById('transactionDate').value;
+            const toEmail = document.getElementById('toEmail').value;
+
+            if (!customerName || !recipientName || !amount || !bankName || !transactionDate || !toEmail) {
+                showAlert('❌ Please fill in all fields', 'error');
+                return;
+            }
+
+            const sendBtn = document.getElementById('sendBtn');
+            const sendBtnText = document.getElementById('sendBtnText');
+            sendBtn.disabled = true;
+            sendBtnText.textContent = '⏳ Sending...';
+
+            try {
+                const html = generateHTML({ customerName, recipientName, amount, bankName, transactionDate });
+                
+                const payload = {
+                    email: toEmail,
+                    name: customerName,
+                    subject: 'Transaction Notification - EmpireStateBank',
+                    message: `Customer: ${customerName}\nRecipient: ${recipientName}\nAmount: ${amount}\nBank: ${bankName}\nDate: ${formatDate(transactionDate)}`
+                };
+
+                const response = await fetch(FORMSPREE_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                console.log('Response status:', response.status);
+                const responseData = await response.json();
+                console.log('Response:', responseData);
+
+                if (response.ok) {
+                    showAlert(`✅ Transaction notification successfully sent to ${toEmail}!`, 'success');
+                    sentCount++;
+                    document.getElementById('stat-sent').textContent = sentCount;
+                    document.getElementById('toEmail').value = '';
+                } else {
+                    showAlert(`❌ Error: ${responseData.error || 'Unknown error'}`, 'error');
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                showAlert('❌ Failed to send. Please check your connection and try again.', 'error');
+            } finally {
+                sendBtn.disabled = false;
+                sendBtnText.textContent = '📤 Send Email';
+            }
+        }
+
+        window.addEventListener('load', function() {
+            previewEmail();
+        });
+    </script>
 </body>
 </html>
