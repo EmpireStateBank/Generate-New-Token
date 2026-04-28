@@ -445,13 +445,13 @@
                     const reader = new FileReader();
                     reader.onloadend = function() {
                         logoBase64 = reader.result;
-                        console.log('Logo loaded successfully');
+                        console.log('Logo loaded successfully as base64');
                     };
                     reader.readAsDataURL(blob);
                 })
                 .catch(error => {
-                    console.log('Could not load local image, using placeholder:', error);
-                    logoBase64 = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="60"%3E%3Crect fill="%23d4af37" width="200" height="60"/%3E%3Ctext x="100" y="35" text-anchor="middle" fill="%23000" font-size="16" font-weight="bold"%3EEmpireStateBank%3C/text%3E%3C/svg%3E';
+                    console.log('Could not load local image, using fallback:', error);
+                    logoBase64 = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="160" height="60"%3E%3Crect fill="%23d4af37" width="160" height="60"/%3E%3Ctext x="80" y="35" text-anchor="middle" fill="%23000" font-size="14" font-weight="bold"%3EEmpireStateBank%3C/text%3E%3C/svg%3E';
                 });
         }
 
@@ -708,7 +708,9 @@
 
         // Load preview on page load
         window.addEventListener('load', () => {
-            previewEmail();
+            setTimeout(() => {
+                previewEmail();
+            }, 500);
         });
     </script>
 </body>
