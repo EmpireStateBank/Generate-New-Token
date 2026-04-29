@@ -401,7 +401,6 @@
 
             <div class="panel">
                 <h2>👁️ Email Preview</h2>
-
                 <div class="preview-container">
                     <div class="preview-label">Email Preview (Gmail-Compatible)</div>
                     <div class="preview-content">
@@ -413,14 +412,11 @@
 
                 <h2>ℹ️ Features</h2>
                 <div style="font-size: 13px; line-height: 1.8; color: #999;">
-                    <p>✅ <strong>Fully Responsive</strong> - Mobile, Tablet & Desktop</p>
+                    <p>✅ <strong>Fully Responsive</strong> - Mobile & desktop</p>
                     <p>✅ <strong>Gmail Compatible</strong> - Table-based layout</p>
                     <p>✅ <strong>Production Ready</strong> - Black & gold theme</p>
                     <p>✅ <strong>Dynamic Placeholders</strong> - Easy customization</p>
                     <p>✅ <strong>Send Emails</strong> - Integrated with Formspree</p>
-                    <p>✅ <strong>Transaction Focused</strong> - Bank transfer notifications</p>
-                    <p>✅ <strong>Naira Currency</strong> - Nigerian NGN support (₦)</p>
-                    <p>✅ <strong>PNG Logo Support</strong> - Local file integration</p>
                 </div>
             </div>
         </div>
@@ -428,49 +424,25 @@
 
     <div class="footer">
         <p>© 2026 EmpireStateBank | Production-Ready Transaction Email System</p>
-        <p style="margin-top: 10px; color: #555;">✅ Preview • 📤 Send • 100% Mobile Responsive • ₦ Naira Support</p>
+        <p style="margin-top: 10px; color: #555;">✅ Preview • 📤 Send • 100% Working</p>
     </div>
 
     <script>
-        // Load PNG image as base64
-        let logoBase64 = '';
-        let sentCount = 0;
-        let previewCount = 0;
-
-        function loadPNGImage() {
-            const logoPath = './AddText_04-11-12.53.52.png';
-            fetch(logoPath)
-                .then(response => response.blob())
-                .then(blob => {
-                    const reader = new FileReader();
-                    reader.onloadend = function() {
-                        logoBase64 = reader.result;
-                        console.log('Logo loaded successfully as base64');
-                    };
-                    reader.readAsDataURL(blob);
-                })
-                .catch(error => {
-                    console.log('Could not load local image, using fallback:', error);
-                    logoBase64 = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="160" height="60"%3E%3Crect fill="%23d4af37" width="160" height="60"/%3E%3Ctext x="80" y="35" text-anchor="middle" fill="%23000" font-size="14" font-weight="bold"%3EEmpireStateBank%3C/text%3E%3C/svg%3E';
-                });
-        }
-
-        function getEmailTemplate(logoUrl) {
-            return `<!DOCTYPE html>
+        const emailTemplate = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EmpireStateBank - Transaction Notification</title>
 </head>
-<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f5f5;">
-    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5;">
+<body style="margin: 0; padding: 0; background-color: #f5f5f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #f5f5f5;">
         <tr>
-            <td align="center" style="padding: 20px 10px;">
-                <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; background-color: #0b0b0b; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden;">
+            <td align="center" style="padding: 20px;">
+                <table width="100%" style="max-width: 600px; background-color: #0b0b0b; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden;">
                     <tr>
                         <td align="center" style="padding: 40px 20px; background-color: #0b0b0b;">
-                            <img src="${logoUrl}" alt="EmpireStateBank Logo" style="max-width: 160px; height: auto; display: block; margin: 0 auto;">
+                            <img src="./AddText_04-11-12.53.52.png" alt="EmpireStateBank Logo" style="max-width: 160px; height: auto; display: block; margin: 0 auto;">
                         </td>
                     </tr>
                     <tr>
@@ -481,25 +453,25 @@
                     </tr>
                     <tr>
                         <td style="padding: 30px 20px; background-color: #0b0b0b; color: #ffffff; font-size: 14px; line-height: 1.6;">
-                            <p style="margin: 0 0 20px 0; font-size: 14px;">Dear <strong style="color: #d4af37;">{{customer_name}}</strong>,</p>
+                            <p style="margin: 0 0 20px 0; font-size: 14px;">Dear <strong style="color: #d4af37;">{{CUSTOMER_NAME}}</strong>,</p>
                             <p style="margin: 0 0 30px 0; font-size: 14px; color: #ccc;">Your transaction has been successfully processed. Below are the details:</p>
                             <table width="100%" border="1" cellspacing="0" cellpadding="15" style="background-color: #1a1a1a; border-color: #d4af37; border-radius: 6px; margin-bottom: 20px;">
                                 <tr>
                                     <td style="color: #d4af37; font-weight: 600; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">Amount</td>
                                 </tr>
                                 <tr>
-                                    <td style="color: #ffffff; font-size: 18px; font-weight: 700; padding-top: 0;">{{amount}}</td>
+                                    <td style="color: #ffffff; font-size: 18px; font-weight: 700; padding-top: 0;">{{AMOUNT}}</td>
                                 </tr>
                             </table>
                             <table width="100%" border="1" cellspacing="0" cellpadding="15" style="background-color: #1a1a1a; border-color: #d4af37; border-radius: 6px; margin-bottom: 20px;">
                                 <tr>
                                     <td>
                                         <p style="margin: 0 0 12px 0; color: #d4af37; font-weight: 600; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">Recipient Name</p>
-                                        <p style="margin: 0 0 15px 0; color: #ffffff; font-size: 16px; font-weight: 600;">{{recipient_name}}</p>
+                                        <p style="margin: 0 0 15px 0; color: #ffffff; font-size: 16px; font-weight: 600;">{{RECIPIENT_NAME}}</p>
                                         <p style="margin: 0 0 8px 0; color: #d4af37; font-weight: 600; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">Bank Name</p>
-                                        <p style="margin: 0 0 15px 0; color: #ffffff; font-size: 16px; font-weight: 600;">{{bank_name}}</p>
+                                        <p style="margin: 0 0 15px 0; color: #ffffff; font-size: 16px; font-weight: 600;">{{BANK_NAME}}</p>
                                         <p style="margin: 0 0 8px 0; color: #d4af37; font-weight: 600; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;">Transaction Date</p>
-                                        <p style="margin: 0; color: #ffffff; font-size: 16px; font-weight: 600;">{{transaction_date}}</p>
+                                        <p style="margin: 0; color: #ffffff; font-size: 16px; font-weight: 600;">{{TRANSACTION_DATE}}</p>
                                     </td>
                                 </tr>
                             </table>
@@ -549,85 +521,18 @@
     </table>
 </body>
 </html>`;
-        }
 
-        loadPNGImage();
-
-        function previewEmail() {
-            const customerName = document.getElementById('customerName').value || 'Customer';
-            const recipientName = document.getElementById('recipientName').value || 'Recipient';
-            const amount = document.getElementById('amount').value || '₦0.00';
-            const bankName = document.getElementById('bankName').value || 'Bank Name';
-            const transactionDate = document.getElementById('transactionDate').value || new Date().toISOString().split('T')[0];
-
-            let emailHtml = getEmailTemplate(logoBase64);
-            emailHtml = emailHtml.replace(/{{customer_name}}/g, customerName);
-            emailHtml = emailHtml.replace(/{{recipient_name}}/g, recipientName);
-            emailHtml = emailHtml.replace(/{{amount}}/g, amount);
-            emailHtml = emailHtml.replace(/{{bank_name}}/g, bankName);
-            emailHtml = emailHtml.replace(/{{transaction_date}}/g, transactionDate);
-
-            const iframe = document.getElementById('previewFrame');
-            iframe.srcdoc = emailHtml;
-
-            previewCount++;
-            document.getElementById('stat-previews').textContent = previewCount;
-
-            showAlert('✅ Email preview generated successfully!', 'success');
-        }
-
-        function copyEmailCode() {
-            const customerName = document.getElementById('customerName').value || 'Customer';
-            const recipientName = document.getElementById('recipientName').value || 'Recipient';
-            const amount = document.getElementById('amount').value || '₦0.00';
-            const bankName = document.getElementById('bankName').value || 'Bank Name';
-            const transactionDate = document.getElementById('transactionDate').value || new Date().toISOString().split('T')[0];
-
-            let emailHtml = getEmailTemplate(logoBase64);
-            emailHtml = emailHtml.replace(/{{customer_name}}/g, customerName);
-            emailHtml = emailHtml.replace(/{{recipient_name}}/g, recipientName);
-            emailHtml = emailHtml.replace(/{{amount}}/g, amount);
-            emailHtml = emailHtml.replace(/{{bank_name}}/g, bankName);
-            emailHtml = emailHtml.replace(/{{transaction_date}}/g, transactionDate);
-
-            navigator.clipboard.writeText(emailHtml).then(() => {
-                showAlert('✅ Email HTML copied to clipboard!', 'success');
-            }).catch(() => {
-                showAlert('❌ Failed to copy. Please try again.', 'error');
-            });
-        }
-
-        function downloadEmail() {
-            const customerName = document.getElementById('customerName').value || 'Customer';
-            const recipientName = document.getElementById('recipientName').value || 'Recipient';
-            const amount = document.getElementById('amount').value || '₦0.00';
-            const bankName = document.getElementById('bankName').value || 'Bank Name';
-            const transactionDate = document.getElementById('transactionDate').value || new Date().toISOString().split('T')[0];
-
-            let emailHtml = getEmailTemplate(logoBase64);
-            emailHtml = emailHtml.replace(/{{customer_name}}/g, customerName);
-            emailHtml = emailHtml.replace(/{{recipient_name}}/g, recipientName);
-            emailHtml = emailHtml.replace(/{{amount}}/g, amount);
-            emailHtml = emailHtml.replace(/{{bank_name}}/g, bankName);
-            emailHtml = emailHtml.replace(/{{transaction_date}}/g, transactionDate);
-
-            const blob = new Blob([emailHtml], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'transaction-notification-email.html';
-            a.click();
-            URL.revokeObjectURL(url);
-
-            showAlert('⬇️ Email downloaded successfully!', 'success');
-        }
+        const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xzzeredj';
+        
+        let sentCount = 0;
+        let previewCount = 0;
 
         function toggleMode() {
             const mode = document.getElementById('mode').value;
             const sendSection = document.getElementById('sendConfigSection');
             const sendBtn = document.getElementById('sendBtn');
             const modeBadge = document.getElementById('modeBadge');
-
+            
             if (mode === 'send') {
                 sendSection.style.display = 'block';
                 sendBtn.style.display = 'flex';
@@ -651,6 +556,75 @@
             }, 5000);
         }
 
+        function previewEmail() {
+            const customerName = document.getElementById('customerName').value || 'Customer';
+            const recipientName = document.getElementById('recipientName').value || 'Recipient';
+            const amount = document.getElementById('amount').value || '₦0.00';
+            const bankName = document.getElementById('bankName').value || 'Bank Name';
+            const transactionDate = document.getElementById('transactionDate').value || new Date().toISOString().split('T')[0];
+
+            let html = emailTemplate;
+            html = html.replace(/{{CUSTOMER_NAME}}/g, customerName);
+            html = html.replace(/{{RECIPIENT_NAME}}/g, recipientName);
+            html = html.replace(/{{AMOUNT}}/g, amount);
+            html = html.replace(/{{BANK_NAME}}/g, bankName);
+            html = html.replace(/{{TRANSACTION_DATE}}/g, transactionDate);
+
+            const iframe = document.getElementById('previewFrame');
+            iframe.srcdoc = html;
+
+            previewCount++;
+            document.getElementById('stat-previews').textContent = previewCount;
+
+            showAlert('✅ Email preview generated successfully!', 'success');
+        }
+
+        function copyEmailCode() {
+            const customerName = document.getElementById('customerName').value || 'Customer';
+            const recipientName = document.getElementById('recipientName').value || 'Recipient';
+            const amount = document.getElementById('amount').value || '₦0.00';
+            const bankName = document.getElementById('bankName').value || 'Bank Name';
+            const transactionDate = document.getElementById('transactionDate').value || new Date().toISOString().split('T')[0];
+
+            let html = emailTemplate;
+            html = html.replace(/{{CUSTOMER_NAME}}/g, customerName);
+            html = html.replace(/{{RECIPIENT_NAME}}/g, recipientName);
+            html = html.replace(/{{AMOUNT}}/g, amount);
+            html = html.replace(/{{BANK_NAME}}/g, bankName);
+            html = html.replace(/{{TRANSACTION_DATE}}/g, transactionDate);
+
+            navigator.clipboard.writeText(html).then(() => {
+                showAlert('✅ Email HTML copied to clipboard!', 'success');
+            }).catch(() => {
+                showAlert('❌ Failed to copy. Please try again.', 'error');
+            });
+        }
+
+        function downloadEmail() {
+            const customerName = document.getElementById('customerName').value || 'Customer';
+            const recipientName = document.getElementById('recipientName').value || 'Recipient';
+            const amount = document.getElementById('amount').value || '₦0.00';
+            const bankName = document.getElementById('bankName').value || 'Bank Name';
+            const transactionDate = document.getElementById('transactionDate').value || new Date().toISOString().split('T')[0];
+
+            let html = emailTemplate;
+            html = html.replace(/{{CUSTOMER_NAME}}/g, customerName);
+            html = html.replace(/{{RECIPIENT_NAME}}/g, recipientName);
+            html = html.replace(/{{AMOUNT}}/g, amount);
+            html = html.replace(/{{BANK_NAME}}/g, bankName);
+            html = html.replace(/{{TRANSACTION_DATE}}/g, transactionDate);
+
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'transaction-notification-email.html';
+            a.click();
+            URL.revokeObjectURL(url);
+
+            showAlert('⬇️ Email downloaded successfully!', 'success');
+        }
+
         function sendEmailNow() {
             const toEmail = document.getElementById('toEmail').value;
             if (!toEmail) {
@@ -669,14 +643,14 @@
             const bankName = document.getElementById('bankName').value || 'Bank Name';
             const transactionDate = document.getElementById('transactionDate').value || new Date().toISOString().split('T')[0];
 
-            let emailHtml = getEmailTemplate(logoBase64);
-            emailHtml = emailHtml.replace(/{{customer_name}}/g, customerName);
-            emailHtml = emailHtml.replace(/{{recipient_name}}/g, recipientName);
-            emailHtml = emailHtml.replace(/{{amount}}/g, amount);
-            emailHtml = emailHtml.replace(/{{bank_name}}/g, bankName);
-            emailHtml = emailHtml.replace(/{{transaction_date}}/g, transactionDate);
+            let html = emailTemplate;
+            html = html.replace(/{{CUSTOMER_NAME}}/g, customerName);
+            html = html.replace(/{{RECIPIENT_NAME}}/g, recipientName);
+            html = html.replace(/{{AMOUNT}}/g, amount);
+            html = html.replace(/{{BANK_NAME}}/g, bankName);
+            html = html.replace(/{{TRANSACTION_DATE}}/g, transactionDate);
 
-            fetch('https://formspree.io/f/xzzeredj', {
+            fetch(FORMSPREE_ENDPOINT, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -684,7 +658,7 @@
                 body: JSON.stringify({
                     email: toEmail,
                     subject: 'Transaction Notification - EmpireStateBank',
-                    message: emailHtml
+                    message: html
                 })
             })
             .then(response => {
@@ -708,9 +682,7 @@
 
         // Load preview on page load
         window.addEventListener('load', () => {
-            setTimeout(() => {
-                previewEmail();
-            }, 500);
+            previewEmail();
         });
     </script>
 </body>
